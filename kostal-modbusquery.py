@@ -126,13 +126,28 @@
 
 import pymodbus
 from pymodbus.client.tcp import ModbusTcpClient
-from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.payload import BinaryPayloadBuilder
 from pprint import pprint
 import time
 import collections
 import argparse
+
+from enum import Enum
+import inspect
+
+if not 'Endian' in inspect.getmembers(pymodbus.constants):
+    class Endian:  # pylint: disable=too-few-public-methods
+        Auto = "@"
+        Big = ">"
+        Little = "<"
+
+        def __init__(self):
+                """Prohibit objects."""
+                raise RuntimeError(INTERNAL_ERROR)
+else:
+        from pymodbus.constants import Endian
+
 
 
 class kostal_modbusquery:
